@@ -7,18 +7,18 @@ const Hero = () => {
   return (
     <div className='hero'>
       <div className='hero-left'>
-        <h2>New Arraivals only</h2>
+        <h2>NEW ARRAIVALS ONLY</h2>
           <div>
-            <div className="hand-hand-icon">
-              <p>new</p>
+            <div className="hero-hand-icon">
+              <p>Hi!</p>
               <img src={hand_icon} alt="" />
             </div>
-            <p>collections</p>
-            <p>for everyone</p>
+            <p> Welcome's</p>
+            <p>You All...</p>
 
           </div>
           <div className="hero-latest-btn">
-            <div>Latest Collection</div>
+            <div>Explore New</div>
             <img src={arrow_icon} alt="" />
           </div>
       </div>
