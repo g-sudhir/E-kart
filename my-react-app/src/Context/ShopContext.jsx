@@ -36,5 +36,5 @@ const removeFromCart = (itemId) => {
             </ShopContext.Provider> 
     );
 }
-
+console.log("hi");
 export default ShopContextProvider;
