@@ -9,7 +9,7 @@ import Footer from './Components/Footer/Footer';
 import men_banner from './Components/Assets/banner_mens.png'
 import women_banner from './Components/Assets/banner_women.png'
 import kids_banner from './Components/Assets/banner_kids.png'
-
+import Details from "./Pages/Details"
 function App() {
   return (
    <div className="App">
@@ -25,7 +25,7 @@ function App() {
             </Route>
             <Route path='/Cart' element={<Cart/>}/>
             <Route path='/Login' element={<LoginSignup/>}/>
-
+            <Route path="/details" element={<Details/>}/>
 
 
 
