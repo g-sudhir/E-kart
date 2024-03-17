@@ -4,11 +4,28 @@ import { ShopContext } from '../../Context/ShopContext';
 import remove_icon from '../Assets/cart_cross_icon.png';
 
 const CartItems = () => {
-  const { allproduct, cartItems, removeFromCart, getTotalCartAmount, address } = useContext(ShopContext);
+  const { allproduct, cartItems, removeFromCart, getTotalCartAmount, address ,updateCartItems} = useContext(ShopContext);
 
   function checkForCheckOut() {
     if (address && address.name !== "") {
-      alert("hello");
+      const data={price:getTotalCartAmount()}
+      console.log(data.price);
+      fetch('http://localhost:4000/placeorder',{
+                method:'POST',
+                headers:{
+                    Accept:'application/json',
+                    'auth-token':`${localStorage.getItem('auth-token')}`,
+                    'Content-Type':'application/json',
+                },
+                body:JSON.stringify(data),
+            }).then((response)=>{
+              if(response.ok){
+                 updateCartItems();
+              }
+             
+            }
+            )
+
     } else {
       window.location.href = "/details";
     }
@@ -29,6 +46,7 @@ const CartItems = () => {
         allproduct && allproduct.length > 0 ? (
           allproduct.map((e) => {
             if (cartItems[e.id] > 0) {
+              
               return (
                 <div key={e.id}>
                   <div className="cartitems-format cartitems-format-main">

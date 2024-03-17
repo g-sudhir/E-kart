@@ -33,38 +33,57 @@ const ShopContextProvider =(props)=>{
     const [cartItems,setCartItems]=useState(getDefaultCart());
     const [address,setaddress]=useState(addressInfo);
 
-    useEffect(()=>{
+    useEffect(() => {
+        // Fetch all products
         fetch('http://localhost:4000/allproducts')
-        .then((response)=>response.json()).then((data)=>setallproduct(data))
-
-        if(localStorage.getItem('auth-token')){
-            fetch('http://localhost:4000/getcart',{
-                method:'POST',
-                headers:{
-                    Accept:'application/json',
-                    'auth-token':`${localStorage.getItem('auth-token')}`,
-                    'Content-Type':'application/json',
-                },
-                body:"",
-            }).then((response)=>response.json())
-            .then((data)=>setCartItems(data));
-
-
-            fetch('http://localhost:4000/getAddress',{
-                method:'POST',
-                headers:{
-                    Accept:'application/json',
-                    'auth-token':`${localStorage.getItem('auth-token')}`,
-                    'Content-Type':'application/json',
-                },
-                body:"",
-            }).then((response)=>response.json())
-            .then((data)=>setaddress(data));
-
-        }
-
-        
-    },[]);
+            .then(response => response.json())
+            .then(data => {
+                setallproduct(data);
+    
+                // Check if auth token exists
+                if (localStorage.getItem('auth-token')) {
+                    // Fetch cart items
+                    fetch('http://localhost:4000/getcart', {
+                        method: 'POST',
+                        headers: {
+                            Accept: 'application/json',
+                            'auth-token': localStorage.getItem('auth-token'),
+                            'Content-Type': 'application/json',
+                        },
+                        body: "",
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        setCartItems(data);
+    
+                        // Fetch address
+                        fetch('http://localhost:4000/getAddress', {
+                            method: 'POST',
+                            headers: {
+                                Accept: 'application/json',
+                                'auth-token': localStorage.getItem('auth-token'),
+                                'Content-Type': 'application/json',
+                            },
+                            body: "",
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            setaddress(data);
+                        })
+                        .catch(error => {
+                            console.error('Error fetching address:', error);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching cart items:', error);
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching all products:', error);
+            });
+    }, []);
+    
 
     const addToCart=(ItemId)=>{
         setCartItems((prev)=>({...prev,[ItemId]:prev[ItemId]+1}))
@@ -121,7 +140,31 @@ const ShopContextProvider =(props)=>{
         }
         return totalItem;
     }
-    const contextValue = {allproduct,cartItems,address,addToCart,removeFromCart,getTotalCartAmount,getTotalCartItems};
+
+
+    const updateCartItems = (newCartItems) => {
+        if (localStorage.getItem('auth-token')) {
+            // Fetch cart items
+            fetch('http://localhost:4000/getcart', {
+                method: 'POST',
+                headers: {
+                    Accept: 'application/json',
+                    'auth-token': localStorage.getItem('auth-token'),
+                    'Content-Type': 'application/json',
+                },
+                body: "",
+            })
+            .then(response => response.json())
+            .then(data => {
+                setCartItems(data);
+            })
+            .catch(error => {
+                console.error('Error updating cart items:', error);
+            });
+        }
+    };
+    
+    const contextValue = {allproduct,cartItems,address,addToCart,removeFromCart,getTotalCartAmount,getTotalCartItems,updateCartItems};
     return (
         <ShopContext.Provider value={contextValue}>
             {props.children}

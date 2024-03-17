@@ -136,6 +136,37 @@ const Address = mongoose.model("Address",{
 
 
 
+const Orders = mongoose.model("Orders",{
+    ref:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
+    },
+    orderId:{
+        type:Number,
+        required:true,
+    },
+    orderproductId:{
+        type:Object
+    },
+    totalprice:{
+        type:Number,
+        // required:true,
+    },
+    date:{
+        type:Date,
+        default:Date.now,
+
+    },
+    delivered:{
+        type:Number,
+        default:0,
+    }
+
+}
+)
+
+
 app.post('/addproduct',async(req,res)=>{
     let products = await Product.find({});
     let id;
@@ -343,12 +374,11 @@ app.post('/removefromcart',fetchUser,async(req,res)=>{
 
 // creating end point to  get cart
 
-
+var orderIdsArray=[];
 app.post('/getcart',fetchUser,async (req,res)=>{
-    
     console.log("getting cart");
     let userData = await Users.findOne({_id:req.user.id});
-
+    console.log("getted cartItems....")
     res.json(userData.cartData);
 })
 
@@ -392,6 +422,68 @@ app.post('/details', fetchUser, async (req, res) => {
         res.json({ success: true, message: 'Details saved successfully' });
     } catch (error) {
         console.error("Error saving user details:", error);
+        res.status(500).json({ success: false, errors: "Internal Server Error" });
+    }
+});
+
+
+
+app.post('/placeorder', fetchUser, async (req, res) => {
+    try {
+        // Fetch the cart data
+        const userData = await Users.findOne({ _id: req.user.id });
+        
+        if (!userData) {
+            return res.status(404).json({ success: false, errors: "User not found" });
+        }
+
+        const orderIdsArray = [];
+
+        Object.keys(userData.cartData).forEach(function (key) {
+            if (userData.cartData[key] >= 1) {
+                orderIdsArray.push({ [key]: userData.cartData[key] });
+                userData.cartData[key] = 0;
+            }
+        });
+
+        // Save the updated cartData to the database
+        console.log(userData.cartData)
+        // After modifying cartData
+        userData.markModified('cartData');
+
+
+        await userData.save();
+        
+
+        
+
+        // Find the latest order in the database
+        const latestOrder = await Orders.findOne().sort({ orderId: -1 });
+
+        let newOrderId = 0; // Default value if no orders exist yet
+
+        // If there are previous orders, increment the latest orderId by 1
+        if (latestOrder) {
+            newOrderId = latestOrder.orderId + 1;
+        }
+        // console.log(req.body.price);
+        // Create a new order with the incremented orderId
+        const order = new Orders({
+            ref: req.user.id,
+            orderId: newOrderId,
+            orderproductId: orderIdsArray,
+            totalprice:req.body.price,
+
+        });
+
+        // Save the order to the database
+        await order.save();
+
+        console.log("Order saved successfully");
+
+        res.json({ success: true, message: 'Order placed successfully' });
+    } catch (error) {
+        console.error("Error saving order:", error);
         res.status(500).json({ success: false, errors: "Internal Server Error" });
     }
 });
