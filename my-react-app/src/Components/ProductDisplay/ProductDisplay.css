@@ -2,6 +2,7 @@
     display: flex;
     margin: 0px 170px;
 }
+
 .productdisplay-left{
     display: flex;
     gap: 17px;
@@ -325,4 +326,8 @@
         
     }
 
+}
+.selected{
+    color: red;
+    border: 2px yellow solid;
 }

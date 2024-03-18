@@ -1,20 +1,29 @@
-import React from 'react';
-import './Order.css';  // Import your CSS file
+import React, { useContext } from 'react';
+import { useParams } from 'react-router-dom';
+import { OrdersContext } from '../../Context/Allcontext';
 
 const Order = () => {
+  const { orderId} = useParams();
+  const { orders ,allproducts} = useContext(OrdersContext);
+  console.log(orders)
+  let currentOrder;
+  for(var i=0;i<orders.length;i++){
+    if(orders[i].orderId==parseInt(orderId)){
+      currentOrder=orders[i];
+      break;
+    }
+  }
+  console.log(currentOrder)
   return (
-    <div className="orders-container">
-      <h1 className="orders-title">Orders</h1>
-      <div className="order-list">
-        {/* Display orders here */}
-        <div className="order-item">
-          <p>Order ID: 123</p>
-          <p>Customer: John Doe</p>
-          <p>Product: Product Name</p>
-          {/* Add more order details as needed */}
+    <div>
+      {/* Render details of currentOrder */}
+      {currentOrder && (
+        <div>
+          <h2>Order ID: {currentOrder.orderId}</h2>
+          <p>Customer Name: {currentOrder.address.name}</p>
+          {/* Render other details of the order */}
         </div>
-        {/* Repeat the above structure for each order */}
-      </div>
+      )}
     </div>
   );
 }

@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import './ListProduct.css'
+import { OrdersContext } from '../../Context/Allcontext'
 import cross_icon from '../../assets/cross_icon.png'
 const ListProduct = () => {
-  const [allproducts,setallproducts] = useState([]);
+  const {allproducts,updateProducts} = useContext(OrdersContext);
 
   const fetchInfo = async ()=>{
     await fetch ('http://localhost:4000/allproducts')
     .then((res)=>res.json())
-    .then((data)=>{setallproducts(data)});
+    .then((data)=>{updateProducts(data)});
   }
 
   useEffect(()=>{
     fetchInfo();
-  },[])
+  },[updateProducts])
 
 
   const remove_product = async (id)=>{

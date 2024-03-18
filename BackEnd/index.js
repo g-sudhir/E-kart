@@ -488,6 +488,41 @@ app.post('/placeorder', fetchUser, async (req, res) => {
     }
 });
 
+app.get('/allorders', async (req, res) => {
+    try {
+        // Fetch all orders
+        const orders = await Orders.find();
+         
+        // Fetch addresses for each order and merge them with the order object
+        const ordersWithAddresses = await Promise.all(orders.map(async (order) => {
+            const useref = order.ref;
+
+            // Find the address associated with the order's reference
+            const address = await Address.findOne({ ref: useref });
+
+            // Merge the address with the order object
+            if (address) {
+                console.log("hi");
+                return { ...order._doc, address: address }; 
+            } else {
+                return { ...order._doc, address: null }; // If no address found, set to null
+            }
+        }));
+
+        // console.log(ordersWithAddresses);
+
+        // Send the merged orders with addresses as the response
+        res.json(ordersWithAddresses);
+    } catch (error) {
+        console.error("Error retrieving orders:", error);
+        res.status(500).json({ success: false, errors: "Internal Server Error" });
+    }
+});
+
+
+
+
+
 
 app.listen(port,(e)=>{
     if(!e){
