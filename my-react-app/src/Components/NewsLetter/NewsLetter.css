@@ -8,7 +8,7 @@
     margin:auto;
     padding:0px 140px;
     margin-bottom:150px;
-    background: linear-gradient(180deg,#fde1ff,#e1ffea22 60%);
+    background: linear-gradient(180deg,#12ffac48,#e1ffea22 60%);;
     gap:30px;
 }
 
@@ -127,12 +127,16 @@
 
     }
 
-    .newsletter div{
-        width: 29px;
-    }
+   .newsletter div{
+    display: flex;
+    justify-content: space-between;
+    border-radius: 10px;
+    width: 90%;
+   }
 
     .newsletter div input{
         width:130px;
+        margin-left: 0px;
     }
 
     .newsletter div button{

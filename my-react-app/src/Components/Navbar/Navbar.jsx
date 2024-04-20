@@ -37,10 +37,10 @@ const Navbar=()=>{
             </div>
             <img src={menu_icon} ref={imageRef} alt="" onClick={dropDown_Toggle} className='nav-dropdown' />
             <ul className="nav-menu" ref={menuRef} >
-                <li onClick={()=>{setMenu("Shop"); closedown()}}><Link to='/' style={{ textDecoration: 'none' }}> Shop </Link> {menu==="Shop"?<hr/>:<></>}</li>
-                <li onClick={()=>{setMenu("Men");closedown()}}><Link to='/Men' style={{ textDecoration: 'none' }}>Men </Link> {menu==="Men"?<hr/>:<></>}</li>
-                <li onClick={()=>{setMenu("Women");closedown()}}><Link to='/Women' style={{ textDecoration: 'none' }}>Women </Link> {menu==="Women"?<hr/>:<></>}</li>
-                <li onClick={()=>{setMenu("Kids");closedown()}}><Link to='/Kids' style={{ textDecoration: 'none' }}>Kids </Link> {menu==="Kids"?<hr/>:<></>}</li>
+                <li onClick={()=>{setMenu("Shop"); closedown()}}><Link to='/' style={{ textDecoration: 'none',color:'black' }}> Shop </Link> {menu==="Shop"?<hr/>:<></>}</li>
+                <li onClick={()=>{setMenu("Men");closedown()}}><Link to='/Men' style={{ textDecoration: 'none',color:'black' }}>Men </Link> {menu==="Men"?<hr/>:<></>}</li>
+                <li onClick={()=>{setMenu("Women");closedown()}}><Link to='/Women' style={{ textDecoration: 'none',color:'black' }}>Women </Link> {menu==="Women"?<hr/>:<></>}</li>
+                <li onClick={()=>{setMenu("Kids");closedown()}}><Link to='/Kids' style={{ textDecoration: 'none',color:'black' }}>Kids </Link> {menu==="Kids"?<hr/>:<></>}</li>
             </ul>
             <div className="nav-login-cart">
                 {localStorage.getItem('auth-token')?<button onClick={()=>{localStorage.removeItem('auth-token');window.location.replace('/')}}>logout</button>:<Link to="/Login"><button>Login</button></Link> }

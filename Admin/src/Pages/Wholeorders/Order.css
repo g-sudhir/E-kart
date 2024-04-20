@@ -7,17 +7,8 @@
   display: flex;
   border: 2px black solid;
   border-radius: 20px;
-  background: hsla(351, 100%, 25%, 1);
-
-background: linear-gradient(90deg, hsla(351, 100%, 25%, 1) 0%, hsla(9, 59%, 7%, 1) 100%);
-
-background: -moz-linear-gradient(90deg, hsla(351, 100%, 25%, 1) 0%, hsla(9, 59%, 7%, 1) 100%);
-
-background: -webkit-linear-gradient(90deg, hsla(351, 100%, 25%, 1) 0%, hsla(9, 59%, 7%, 1) 100%);
-
-filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#7F0012", endColorstr="#1B0A07", GradientType=1 );
   width: 100%;
-  color: white;
+ color: black;
 }
 .Order-div *{
   margin-left: 10px;
@@ -26,11 +17,54 @@ filter: progid: DXImageTransform.Microsoft.gradient( startColorstr="#7F0012", en
 
 /* styles.css */
 .order-link {
-
+  color:black;
+  
   text-decoration: none;
-  color: white; /* Change color as needed */
+  
+  /* Change color as needed */
 }
 
-.order-link:hover {
-  text-decoration: underline;
+
+.Orders-main{
+  background-color: white;
+  margin: 10px;
+  padding: 20px;
+  width:80%;
+}
+.main-form-layout p{
+
+  font-weight: 100;
+}
+.main-form-layout{
+  /* width: 80%; */
+  display: grid;
+  text-decoration: none;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+}
+
+
+@media (max-width:800px) {
+  .Orders-main{
+    max-width: 100%;
+    min-width: 100%;
+  }
+  .product-imgs{
+    display: none;
+  }
+  .main-form-layout{
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr ;
+  }
+  
+
+}
+img{
+  width: 50px;
+  height:80px;
+}
+
+@media (max-width:400px) {
+  
+.main-form-layout{
+  grid-template-columns: 1fr 1fr 1fr 1fr ;
+}
 }

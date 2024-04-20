@@ -12,12 +12,14 @@
 
 .cartitems-format-main{
     display: grid;
-    grid-template-columns: 0.5fr 2fr 1fr 1fr 1fr 1fr 1fr;
+    grid-template-columns: .5fr 2fr  1fr 1fr 1fr 1fr 1fr 1fr;
     align-items: center;
     gap:75px;
     padding: 20px 0px;
     color:#454545;
+    text-align: center;
     font-size: 18px;
+    justify-content: center;
     font-weight: 600;
 }
 .cartitems-format{
@@ -27,7 +29,8 @@
 }
 .carticon-product-icon{
     height: 62px;
-
+    min-width: 90px;
+    object-fit: contain;
 }
 
 .cartitems-remove-icon{
@@ -139,7 +142,7 @@
     }
 
     .carticon-product-icon{
-        height: 50px;
+        margin-left: 220px;
     }
 
     .cartitems-remove-icon{

@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+  }
 .sidebar{
     display: flex;
     flex-direction: column;
@@ -27,13 +30,27 @@
     .sidebar{
         padding: 30px 0px;
         flex-direction: row;
-        width: 100%;
+        width: 100vw;
+        box-sizing: content-box;
         max-width: none;
         justify-content: center;
         height: auto;
     }
-
+   .admin{
+    width: 100vw;
+    margin: 0;
+   }
     .sidebar-item{
         margin: 0;
     }
+}
+
+
+@media (max-width:400px) {
+  .sidebar{
+    margin: 3px;
+    padding: 3px;
+    
+    flex-wrap: wrap;
+  }
 }

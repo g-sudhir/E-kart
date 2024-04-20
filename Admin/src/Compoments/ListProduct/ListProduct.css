@@ -8,10 +8,14 @@
     margin: 30px;
     border-radius: 6px;
     background: white;
+    
+    
 }
 
 
-
+.old_price{
+    text-decoration: line-through;
+}
 .listproduct-format-main{
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr 1fr 1fr;
@@ -19,6 +23,7 @@
     width: 100%;
     padding: 20px 0px;
     color: #454545;
+    place-items: center;
     font-size: 15px;
     font-weight: 600;
 
@@ -33,11 +38,14 @@
 
 
 .listproduct-product-icon{
-    height: 80px;
+    max-height: 80px;
 }
 .listproduct-remove-icon{
     cursor: pointer;
     margin: auto;
+    max-width: 25px;
+    max-height: 25px;
+
 }
 
 .listproduct-allproducts{
@@ -68,4 +76,22 @@
 
     
 
+}
+
+
+@media (max-width:400px) {
+     .headings{
+    display: none;
+    }
+    .listproduct{
+        margin:0px;
+        margin-top: 10px;
+        padding: 15px 15px;
+    }
+    .listproduct-format-main{
+        grid-template-columns: 1fr 1fr 1fr ;
+        
+    }
+   
+    
 }

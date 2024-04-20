@@ -50,7 +50,7 @@ const ProductDisplay = (props) => {
                         <div className={size === 'XL' ? 'selected' : ''} onClick={() => updateSize('XL')}>XL</div>
                         <div className={size === 'XXL' ? 'selected' : ''} onClick={() => updateSize('XXL')}>XXL</div>
                     </div>
-                    <button onClick={() => { localStorage.getItem('auth-token') ? addToCart(product.id) : window.location.href = "/Login" }}>Add to cart</button>
+                    <button onClick={() => { localStorage.getItem('auth-token') ? addToCart(product.id,size) : window.location.href = "/Login" }}>Add to cart</button>
 
                     <p className='productdisplay-right-category'><span>Category :</span>Women , T-Shirt, Crop Top</p>
                     <p className='productdisplay-right-category'><span>Tags :</span>Modern, Latest</p>

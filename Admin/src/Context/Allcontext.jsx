@@ -1,4 +1,4 @@
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 
 // Create the context
 export const OrdersContext = createContext(null);
@@ -19,7 +19,15 @@ export const OrdersProvider = (props) => {
   };
 
 
+  const fetchInfo = async ()=>{
+    await fetch ('http://localhost:4000/allproducts')
+    .then((res)=>res.json())
+    .then((data)=>{updateProducts(data)});
+  }
 
+  useEffect(()=>{
+    fetchInfo();
+  },[]); // Empty dependency array means the effect runs only once after the initial render
 
   const contextValue ={orders,allproducts,updateProducts,updateOrders};
   return (

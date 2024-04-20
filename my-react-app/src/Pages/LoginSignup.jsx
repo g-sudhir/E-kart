@@ -36,24 +36,36 @@ const LoginSignup = () => {
   };
 
 
+
   const login = async () => {
-    let responseData ;
-    await fetch('http://localhost:4000/login',{
-      method:'POST',
-      headers:{
-        Accept:'application/form-data',
-        'Content-Type':'application/json',
-      },
-      body:JSON.stringify(formData)
-    }).then((res)=>res.json()).then((data)=>responseData=data)
-    if(responseData.success){
-      localStorage.setItem('auth-token',responseData.token);
-      window.location.replace("/");
-    }
-    else{
-      alert(responseData.errors);
+    try {
+      const response = await fetch('http://localhost:4000/login', {
+        method: 'POST',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      const responseData = await response.json();
+  
+      if (responseData.admin) {
+        window.location.replace("http://localhost:5173");
+      } else {
+        if (responseData.success) {
+          localStorage.setItem('auth-token', responseData.token);
+          window.location.replace("/");
+        } else {
+          alert(responseData.errors);
+        }
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      // Handle error here
     }
   };
+  
 
 
   return (

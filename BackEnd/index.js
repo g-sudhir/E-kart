@@ -158,9 +158,9 @@ const Orders = mongoose.model("Orders",{
         default:Date.now,
 
     },
-    delivered:{
-        type:Number,
-        default:0,
+    status:{
+        type:String,
+        default:"Order Recieved",
     }
 
 }
@@ -244,6 +244,14 @@ const Users = mongoose.model('User', {
     },
 });
 
+const Admin = mongoose.model('owners',{
+    username:{
+        type:String,
+    },
+    password:{
+        type:String,
+    }
+});
 // Creating endpoint for registering the user
 app.post('/signup', async (req, res) => {
     try {
@@ -251,10 +259,12 @@ app.post('/signup', async (req, res) => {
         if (check) {
             return res.status(400).json({ success: false, errors: "Existing user found with the same email id" });
         } else {
-            let cart = {};
-            for (let i = 0; i < 300; i++) {
-                cart[i] = 0;
-            }
+            let cart = [];
+    for (let index = 0; index < 300; index++) {
+        cart[index] = { 'S': 0, 'M': 0, 'L': 0, 'XL': 0, 'XXL': 0 };
+    }
+    // console.log(cart)
+    
 
             const user = new Users({
                 name: req.body.username,
@@ -290,7 +300,10 @@ app.post('/signup', async (req, res) => {
 
 app.post('/login',async (req,res)=>{
         let user = await Users.findOne({email:req.body.email});
+        let admin  = await Admin.findOne({username:req.body.email});
+        // console.log(admin);
         if(user){
+            console.log("user")
             const passCompare = (req.body.password === user.password);
             if(passCompare){
                 const data = {
@@ -299,14 +312,31 @@ app.post('/login',async (req,res)=>{
                     }
                 }
                 const token = jwt.sign(data,'secret_ecom');
-                res.json({success:true,token})
+                console.log("success");
+                res.json({success:true,admin:false,token})
             }
             else{
-                res.json({success:false,errors: "password is wrong"});
+                res.json({success:false,admin:false,errors: "password is wrong"});
             }
         }
-        else{
-            res.json({success:false,errors:"wrong email id"});
+       else if(admin){
+             console.log("admin1");
+                const passCompare = (req.body.password == admin.password);
+                if(passCompare){
+                    const data = {
+                        user:{
+                            id:admin.id
+                        }
+                    }
+                   
+                    console.log("admin");
+                    res.json({success:true,admin:true});
+                }
+                else{
+
+                    res.json({success:false,errors:"wrong email id"});
+                }
+            
         }
 })
 
@@ -353,9 +383,8 @@ const fetchUser = async (req, res, next) => {
 
 app.post('/addtocart', fetchUser, async (req, res) => {
      let userData = await Users.findOne({_id:req.user.id});
-     userData.cartData[req.body.itemid]+=1;
+     userData.cartData[req.body.itemid][req.body.size]+=1;
      await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-     res.send("Added");
      console.log("cart update sucess");
 });
 
@@ -365,10 +394,9 @@ app.post('/addtocart', fetchUser, async (req, res) => {
 
 app.post('/removefromcart',fetchUser,async(req,res)=>{
     let userData = await Users.findOne({_id:req.user.id});
-    if(userData.cartData[req.body.itemid]>0)
-    userData.cartData[req.body.itemid]-=1;
+    if(userData.cartData[req.body.itemid][req.body.size]>0)
+    userData.cartData[req.body.itemid][req.body.size]-=1;
     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-    res.send("Added");
     console.log("cart remove sucess");
 })
 
@@ -378,7 +406,6 @@ var orderIdsArray=[];
 app.post('/getcart',fetchUser,async (req,res)=>{
     console.log("getting cart");
     let userData = await Users.findOne({_id:req.user.id});
-    console.log("getted cartItems....")
     res.json(userData.cartData);
 })
 
@@ -440,15 +467,16 @@ app.post('/placeorder', fetchUser, async (req, res) => {
         const orderIdsArray = [];
 
         Object.keys(userData.cartData).forEach(function (key) {
-            if (userData.cartData[key] >= 1) {
-                orderIdsArray.push({ [key]: userData.cartData[key] });
-                userData.cartData[key] = 0;
+            for(var size in userData.cartData[key]){
+
+                if (userData.cartData[key][size] >= 1) {
+                    orderIdsArray.push({ ["productId"]: key,[size]:size ,quantity:userData.cartData[key][size]});
+                    userData.cartData[key][size] = 0;
+
+                }
             }
         });
-
-        // Save the updated cartData to the database
-        console.log(userData.cartData)
-        // After modifying cartData
+        console.log(orderIdsArray)
         userData.markModified('cartData');
 
 
@@ -499,10 +527,10 @@ app.get('/allorders', async (req, res) => {
 
             // Find the address associated with the order's reference
             const address = await Address.findOne({ ref: useref });
-
-            // Merge the address with the order object
+            
+            // Merge the address  with the order object
             if (address) {
-                console.log("hi");
+                // console.log("hi");
                 return { ...order._doc, address: address }; 
             } else {
                 return { ...order._doc, address: null }; // If no address found, set to null
@@ -518,6 +546,97 @@ app.get('/allorders', async (req, res) => {
         res.status(500).json({ success: false, errors: "Internal Server Error" });
     }
 });
+
+
+app.post('/getimgs',async (req,res)=>{
+    try{
+       
+
+        const Collec =await  Product.findOne({id:req.body.productId});
+        
+        res.json(Collec.image);
+    }
+    catch (error) {
+        console.error("Error retrieving orders:", error);
+        res.status(500).json({ success: false, errors: "Internal Server Error" });
+    }
+})
+
+
+app.post('/makeupdate', async (req, res) => {
+    try {
+        console.log(req.body.orderId);
+        const Collec = await Orders.findOne({ orderId: req.body.orderId });
+        if (!Collec) {
+            return res.status(404).json({ success: false, errors: "Order not found" });
+        }
+        Collec.status = req.body.status;
+        await Collec.save(); // Save the updated document
+
+        res.status(200).json({ success: true, message: "Order status updated successfully" });
+    } catch (error) {
+        console.error("Error making update:", error);
+        res.status(500).json({ success: false, errors: "Internal Server Error" });
+    }
+});
+
+
+
+const Subscriptions = mongoose.model('Subscription', {
+    email: {
+        type: String,
+        required: true,
+    }
+});
+const nodemailer=require("nodemailer")
+
+app.post('/addSubscription', fetchUser, async (req, res) => {
+    try {
+        console.log(req.body.email)
+        const { email } = req.body; // Assuming email is sent in the request body
+        const subscription = new Subscriptions({ email });
+        await subscription.save();
+        
+        // Call the sendEmail function with req.body
+        await sendEmail(req.body);
+
+        res.json({ success: true, message: "Subscription added successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ success: false, errors: "Internal Server Error" });
+    }
+});
+
+// Function to send email
+const sendEmail = async (emailData) => {
+    try {
+        // Create a transporter object with your email service credentials
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: 'sakthiadhu@gmail.com', // Your Gmail address
+                pass: 'rtqm dntj ohqu ujhu' // Your Gmail password or application-specific password if 2-step verification is enabled
+            }
+        });
+
+        // Customize email options based on emailData
+        const mailOptions = {
+            from: 'sakthiadhu@gmail.com', // Sender address
+            to: emailData.email, // Recipient address
+            subject: 'Welcome to our newsletter', // Subject line
+            text: 'Thank you for subscribing to our newsletter!' // Plain text body
+            // You can also include an HTML body using the html property
+        };
+
+        // Send mail with defined transport object
+        await transporter.sendMail(mailOptions);
+
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+};
+
 
 
 

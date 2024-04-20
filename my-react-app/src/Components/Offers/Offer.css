@@ -3,9 +3,10 @@
     height: 60vh;
     display: flex;
     margin: auto;
+    
     padding: 0px 140px;
     margin-bottom: 150px;
-    background: linear-gradient(180deg,#fde1ff 0%,#e1ffea22);
+    background: linear-gradient(180deg,#12ffac48,#e1ffea22 60%);
 
 }
 
@@ -18,7 +19,7 @@
 }
 .offers-left h1{
     color:black;
-    font-size:80px;
+    font-size:40px;
     font-weight: 600;
 
 }
@@ -32,7 +33,7 @@
     width:282px;
     height:70px;
     border-radius: 35px;
-    background: #ff4141;
+    background: rgb(12, 128, 114);
     border:none;
     color:white;
     font-size:22px;

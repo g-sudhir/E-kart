@@ -1,9 +1,15 @@
 .item{
     width:280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .item img{
     width: 280px;
+    height: 210px;
+    object-fit: contain;
 }
 .item p{
     margin:6px 0px ;
@@ -38,7 +44,7 @@
         font-size:14px;
     }
     .item img{
-        width:220px;
+        max-width:220px;
     }
     .item-price-old{
         font-size: 14px;
@@ -52,7 +58,7 @@
         font-size:13px;
     }
     .item img{
-        width:170px;
+        max-width:170px;
     }
     .item-price-old{
         font-size: 13px;
@@ -65,7 +71,7 @@
         font-size:12px;
     }
     .item img{
-        width:120px;
+        max-width:120px;
     }
     .item-price-old{
         font-size: 12px;
@@ -77,7 +83,7 @@
 
 @media(max-width:500px){
     .item{
-        width:160px;
+        max-width:160px;
         font-size:12px;
     }
     .item img{

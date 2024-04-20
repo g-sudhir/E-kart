@@ -1,9 +1,16 @@
 *{
     margin: 0;
 }
+
+.shopup{
+    width: 100vw;
+    height: 100px;
+    mix-blend-mode:color;
+    position: absolute;
+}
 .hero{
     height:100vh;
-    background: linear-gradient(180deg,#fde1ff,#e1ffea22 60%);
+    background: linear-gradient(180deg,#12ffac48,#e1ffea22 60%);
     display:flex;
     width: 100%;
 }
@@ -27,7 +34,7 @@
 
 .hero-left p{
     color:rgba(0, 0, 0, 0.63);
-    font-size: 70px;
+    font-size: 50px;
     font-weight: 700;
 }
 
@@ -51,10 +58,12 @@
     width: 310px;
     height: 70px;
     border-radius:75px;
-    background: rgb(216, 49, 76);
+    background: rgb(12, 128, 114);
     margin-top: 30px;
     font-size: 22px;
     font-weight:500;
+    color: white;
+    cursor: pointer;
 }
 
 .hero-right{
@@ -175,3 +184,31 @@
 }
 
 
+.animation{
+    text-transform: uppercase;
+  background-image: linear-gradient(
+    -225deg,
+    #231557 0%,
+    #44107a 29%,
+    #ff1361 67%,
+    #fff800 100%
+  );
+  background-size: auto auto;
+  background-clip: border-box;
+  background-size: 200% auto;
+  color: #fff;
+  background-clip: text;
+  text-fill-color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: textclip 2s linear infinite;
+  display: inline-block;
+      font-size: 190px;
+}
+
+
+@keyframes textclip {
+    to {
+      background-position: 200% center;
+    }
+  }

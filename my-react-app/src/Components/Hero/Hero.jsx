@@ -1,32 +1,41 @@
-import React from 'react'
-import './Hero.css'
-import hand_icon from '../Assets/hand_icon.png'
-import arrow_icon from '../Assets/arrow.png'
-import hero_image from '../Assets/hero_image.png'
-const Hero = () => {
-  return (
-    <div className='hero'>
-      <div className='hero-left'>
-        <h2>NEW ARRAIVALS ONLY</h2>
-          <div>
-            <div className="hero-hand-icon">
-              <p>Hi!</p>
-              <img src={hand_icon} alt="" />
-            </div>
-            <p> Welcome's</p>
-            <p>You All...</p>
+import React, { forwardRef } from 'react';
+import './Hero.css';
+import handIcon from '../Assets/hand_icon.png';
+import arrowIcon from '../Assets/arrow.png';
+import heroImage from '../Assets/shopping_bag gif.gif';
+import shopup from '../Assets/shopup.png'
+const Hero = forwardRef(({ scrollToNewCollections }, ref) => {
+  const handleClick = () => {
+    if (scrollToNewCollections) {
+      
+      scrollToNewCollections();
+    }
+  };
 
+  return (
+    
+    <div className='hero' ref={ref}>
+      <img className="shopup" src={shopup} alt="" />
+      <div className='hero-left'>
+        <h2>NEW ARRIVALS ONLY</h2>
+        <div>
+          <div className="hero-hand-icon">
+            <p className='animation'>Hi!</p>
+            <img src={handIcon} alt="" />
           </div>
-          <div className="hero-latest-btn">
-            <div>Explore New</div>
-            <img src={arrow_icon} alt="" />
-          </div>
+          <p className='animation'>Welcome's</p>
+          <p className='animation'>You All...</p>
+        </div>
+        <div className="hero-latest-btn" onClick={handleClick}>
+          <div>Explore New</div>
+          <img src={arrowIcon} alt="" />
+        </div>
       </div>
       <div className='hero-right'>
-        <img src={hero_image} alt="" />
+        <img src={heroImage} alt="" />
       </div>
     </div>
-  )
-}
+  );
+});
 
-export default Hero
+export default Hero;

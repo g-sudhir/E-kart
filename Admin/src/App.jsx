@@ -7,7 +7,7 @@ const App = () => {
   return (
     <div>
 <OrdersProvider>
-
+      
       <Navbar/>
       <Admin/>
 </OrdersProvider>

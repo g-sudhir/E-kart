@@ -28,7 +28,13 @@ const Details = () => {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(formData),
-    }).then((res) => res.json());
+    }).then((res) => res.json())
+    .then((data)=>{
+      if(data.success){
+        window.location.href="/Cart";
+      }
+    })
+    ;
   }
 
 

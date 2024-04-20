@@ -19,7 +19,7 @@ function App() {
             <Route path='/' element={<Shop/>}/>
             <Route path='/Men' element={<ShopCategory banner={men_banner} category="men"/>}/>
             <Route path='/Women' element={<ShopCategory banner={women_banner} category="women"/>}/>
-            <Route path='/Kids' element={<ShopCategory banner={kids_banner} category="kid"/>}/>
+            <Route path='/Kids' element={<ShopCategory banner={kids_banner} category="kids"/>}/>
             <Route path="Product" element={<Product/>}>
               <Route path=":productId" element={<Product/>}/>
             </Route>
@@ -36,6 +36,6 @@ function App() {
     </BrowserRouter>
    </div>
   );
-}
 
+}
 export default App;
