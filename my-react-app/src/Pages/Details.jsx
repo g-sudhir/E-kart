@@ -20,7 +20,7 @@ const Details = () => {
   };
 
   async function updateAddress() {
-    await fetch('http://localhost:4000/details', {
+    await fetch('https://e-kart-z1nv.onrender.com/details', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

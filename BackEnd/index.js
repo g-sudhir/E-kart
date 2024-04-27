@@ -1,22 +1,26 @@
-const port=4000;
-const express= require("express");
-const app=express();
+require('dotenv').config(); // Load .env file
+
+const port = 4000;
+const express = require("express");
+const app = express();
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoken")
+const jwt = require("jsonwebtoken");
 const multer = require("multer");
 const path = require("path");
-const cors=require("cors");
-
+const cors = require("cors");
+const fs = require("fs");
 
 app.use(express.json());
 app.use(cors());
 
-
-
-//database connection with MOngoDB
-
-mongoose.connect("mongodb+srv://ekart:sudhirsakthi@cluster0.kipl9mj.mongodb.net/ekart");
-//API CREATION
+// Database connection with MongoDB
+mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+    .then(() => {
+        console.log("Connected to MongoDB");
+    })
+    .catch(err => {
+        console.error("Error connecting to MongoDB:", err);
+    });
 
 app.get("/",(req,res)=>{
     res.send("Express App is running")

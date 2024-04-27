@@ -10,10 +10,14 @@ import men_banner from './Components/Assets/banner_mens.png'
 import women_banner from './Components/Assets/banner_women.png'
 import kids_banner from './Components/Assets/banner_kids.png'
 import Details from "./Pages/Details"
+import Alerts from './Components/Alerts/Alerts';
+import { useContext } from 'react';
 function App() {
+
   return (
    <div className="App">
     <BrowserRouter>
+        
         <Navbar/>
         <Routes>
             <Route path='/' element={<Shop/>}/>

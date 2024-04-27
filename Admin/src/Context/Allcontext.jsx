@@ -20,7 +20,7 @@ export const OrdersProvider = (props) => {
 
 
   const fetchInfo = async ()=>{
-    await fetch ('http://localhost:4000/allproducts')
+    await fetch ('https://e-kart-z1nv.onrender.com/allproducts')
     .then((res)=>res.json())
     .then((data)=>{updateProducts(data)});
   }

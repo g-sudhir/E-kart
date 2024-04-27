@@ -10,7 +10,7 @@ const CartItems = () => {
     if (address && address.name !== "") {
       const data = { price: getTotalCartAmount() }
       console.log(data.price);
-      fetch('http://localhost:4000/placeorder', {
+      fetch('https://e-kart-z1nv.onrender.com/placeorder', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
