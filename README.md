@@ -26,7 +26,7 @@ npm run dev
 to start the<b> vite app server</b>.
 
 
-
+###Admin page -> https://ekartadmin.netlify.app/
 
 
 
