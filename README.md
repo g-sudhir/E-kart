@@ -6,7 +6,7 @@ This is a collabrative project me and @sudhir
 This website is created using MERN stack.
 
 cd to my-react-app
-command npm start to start the react server
+command npm start to start the <b>react server</b>
 ```
 npm start
 ```
@@ -23,7 +23,7 @@ cd to admin
 ```
 npm run dev
 ```
-to start the vite app server.
+to start the<b> vite app server</b>.
 
 
 
