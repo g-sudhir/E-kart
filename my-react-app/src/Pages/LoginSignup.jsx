@@ -51,7 +51,7 @@ const LoginSignup = () => {
       const responseData = await response.json();
   
       if (responseData.admin) {
-        window.location.replace("http://localhost:5173");
+        window.location.replace("https://662d4ba4fd5752170a4ec3de--sunny-sopapillas-b2cdf2.netlify.app/");
       } else {
         if (responseData.success) {
           localStorage.setItem('auth-token', responseData.token);
