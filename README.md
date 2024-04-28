@@ -22,7 +22,8 @@ cd to admin
 
 ```
 npm run dev
-``` to start the vite app server.
+```
+to start the vite app server.
 
 
 
