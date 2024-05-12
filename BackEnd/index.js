@@ -1,5 +1,6 @@
 require('dotenv').config(); // Load .env file
 
+const bcrypt = require('bcrypt');
 const port = 4000;
 const express = require("express");
 const app = express();
@@ -9,7 +10,8 @@ const multer = require("multer");
 const path = require("path");
 const cors = require("cors");
 const fs = require("fs");
-
+const sendOTP = require('./otp.js').sendOTP;
+const validateOTP = require('./otp.js').validateOTP;
 app.use(express.json());
 app.use(cors());
 
@@ -40,7 +42,7 @@ app.use('/images',express.static('./Upload/Images'))
 app.post('/upload',upload.single('product'),(req,res)=>{
     res.json({
         success:1,
-        image_url:`http://https://e-kart-z1nv.onrender.com:${port}/images/${req.file.filename}`
+        image_url:`http://localhost:${port}/images/${req.file.filename}`
     })
 })
 
@@ -256,27 +258,28 @@ const Admin = mongoose.model('owners',{
         type:String,
     }
 });
-// Creating endpoint for registering the user
+
 app.post('/signup', async (req, res) => {
     try {
         let check = await Users.findOne({ email: req.body.email });
         if (check) {
             return res.status(400).json({ success: false, errors: "Existing user found with the same email id" });
         } else {
+            const saltRounds = 10; // Adjust the number of salt rounds for security
+            const hashedPassword = await bcrypt.hash(req.body.password, saltRounds);
+
             let cart = [];
-    for (let index = 0; index < 300; index++) {
-        cart[index] = { 'S': 0, 'M': 0, 'L': 0, 'XL': 0, 'XXL': 0 };
-    }
-    // console.log(cart)
-    
+            for (let index = 0; index < 300; index++) {
+                cart[index] = { 'S': 0, 'M': 0, 'L': 0, 'XL': 0, 'XXL': 0 };
+            }
 
             const user = new Users({
                 name: req.body.username,
                 email: req.body.email,
-                password: req.body.password,
+                password: hashedPassword, // Store the hashed password
                 cartData: cart
             });
-            
+
             await user.save();
             const data = {
                 user: {
@@ -298,52 +301,51 @@ app.post('/signup', async (req, res) => {
 
 
 
+
 // Creating endpoint for userlogin
 
 
 
-app.post('/login',async (req,res)=>{
-        let user = await Users.findOne({email:req.body.email});
-        let admin  = await Admin.findOne({username:req.body.email});
-        // console.log(admin);
-        if(user){
-            console.log("user")
-            const passCompare = (req.body.password === user.password);
-            if(passCompare){
-                const data = {
-                    user:{
-                        id:user.id
-                    }
+app.post('/login', async (req, res) => {
+   
+    let user = await Users.findOne({ email: req.body.email });
+    let admin = await Admin.findOne({ username: req.body.email });
+    
+    if (user) {
+        
+        const passwordMatch = await bcrypt.compare(req.body.password, user.password);
+        if (passwordMatch) {
+            const data = {
+                user: {
+                    id: user.id
                 }
-                const token = jwt.sign(data,'secret_ecom');
-                console.log("success");
-                res.json({success:true,admin:false,token})
-            }
-            else{
-                res.json({success:false,admin:false,errors: "password is wrong"});
-            }
+            };
+            const token = jwt.sign(data, 'secret_ecom');
+    
+            res.json({ success: true, admin: false, token });
+        } else {
+            res.json({ success: false, admin: false, errors: "Password is incorrect" });
         }
-       else if(admin){
-             console.log("admin1");
-                const passCompare = (req.body.password == admin.password);
-                if(passCompare){
-                    const data = {
-                        user:{
-                            id:admin.id
-                        }
-                    }
-                   
-                    console.log("admin");
-                    res.json({success:true,admin:true});
+    } else if (admin) {
+       
+        const passwordMatch = await bcrypt.compare(req.body.password, admin.password);
+        if (passwordMatch) {
+            const data = {
+                user: {
+                    id: admin.id
                 }
-                else{
-
-                    res.json({success:false,errors:"wrong email id"});
-                }
+            };
+            const token = jwt.sign(data, 'secret_admin');
+        
             
+            res.json({ success: true, admin: true ,token});
+        } else {
+            res.json({ success: false, errors: "Incorrect email or password" });
         }
-})
-
+    } else {
+        res.json({ success: false, errors: "User or admin not found" });
+    }
+});
 
 
 
@@ -356,8 +358,9 @@ app.post('/login',async (req,res)=>{
 
 app.get('/newcollection',async (req,res) =>{
     let products = await Product.find({});
-    let newcollection = products.slice(1).slice(-8);
-    console.log("Newcollection fetched")
+    
+    let newcollection = products.slice(-8);
+
     res.send(newcollection);
 })
 
@@ -366,7 +369,7 @@ app.get('/newcollection',async (req,res) =>{
 app.get('/popularinwomen',async(req,res)=>{
     let products = await Product.find({category:"women"});
     let popular_in_women = products.slice(0,4);
-    console.log("Popular in women fetched");
+   
     res.setDefaultEncoding((popular_in_women));
 })
 const fetchUser = async (req, res, next) => {
@@ -389,7 +392,7 @@ app.post('/addtocart', fetchUser, async (req, res) => {
      let userData = await Users.findOne({_id:req.user.id});
      userData.cartData[req.body.itemid][req.body.size]+=1;
      await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-     console.log("cart update sucess");
+     
 });
 
 // cfreating endpoint for remove product from cartDtaa
@@ -401,33 +404,32 @@ app.post('/removefromcart',fetchUser,async(req,res)=>{
     if(userData.cartData[req.body.itemid][req.body.size]>0)
     userData.cartData[req.body.itemid][req.body.size]-=1;
     await Users.findOneAndUpdate({_id:req.user.id},{cartData:userData.cartData});
-    console.log("cart remove sucess");
+
 })
 
 // creating end point to  get cart
 
 var orderIdsArray=[];
 app.post('/getcart',fetchUser,async (req,res)=>{
-    console.log("getting cart");
+ 
     let userData = await Users.findOne({_id:req.user.id});
     res.json(userData.cartData);
 })
 
 app.post('/getAddress',fetchUser,async (req,res)=>{
     
-    console.log("getting address");
     let userData = await Address.findOne({ref:req.user.id});
-    console.log(userData);
+    // console.log(userData);
     res.json(userData);
 })
 
 
 app.post('/details', fetchUser, async (req, res) => {
     try {
-        console.log("geetign....",req.user.id);
+        // console.log("geetign....",req.user.id);
         console.log("Uploading address details...");
         
-        console.log("Request Body:", req.body); // Add this line to check the received data
+        // console.log("Request Body:", req.body); // Add this line to check the received data
         
         const { name, email, address1, address2, mobile, state, district, pincode, landmark } = req.body;
         
@@ -448,7 +450,7 @@ app.post('/details', fetchUser, async (req, res) => {
         
         await user.save();
         
-        console.log("User details saved successfully:", user);
+        // console.log("User details saved successfully:", user);
         
         res.json({ success: true, message: 'Details saved successfully' });
     } catch (error) {
@@ -480,7 +482,7 @@ app.post('/placeorder', fetchUser, async (req, res) => {
                 }
             }
         });
-        console.log(orderIdsArray)
+        // console.log(orderIdsArray)
         userData.markModified('cartData');
 
 
@@ -511,7 +513,7 @@ app.post('/placeorder', fetchUser, async (req, res) => {
         // Save the order to the database
         await order.save();
 
-        console.log("Order saved successfully");
+        // console.log("Order saved successfully");
 
         res.json({ success: true, message: 'Order placed successfully' });
     } catch (error) {
@@ -569,7 +571,7 @@ app.post('/getimgs',async (req,res)=>{
 
 app.post('/makeupdate', async (req, res) => {
     try {
-        console.log(req.body.orderId);
+        // console.log(req.body.orderId);
         const Collec = await Orders.findOne({ orderId: req.body.orderId });
         if (!Collec) {
             return res.status(404).json({ success: false, errors: "Order not found" });
@@ -596,7 +598,7 @@ const nodemailer=require("nodemailer")
 
 app.post('/addSubscription', fetchUser, async (req, res) => {
     try {
-        console.log(req.body.email)
+        // console.log(req.body.email)
         const { email } = req.body; // Assuming email is sent in the request body
         const subscription = new Subscriptions({ email });
         await subscription.save();
@@ -640,12 +642,55 @@ const sendEmail = async (emailData) => {
         console.error('Error sending email:', error);
     }
 };
+var otp, expirytime;
+
+app.post('/sendotp', async (req, res) => {
+    try {
+        console.log("ha")
+        const otpData = await sendOTP(req.body.email);
+        otp = otpData.otp;
+        expirytime = otpData.expirationTime;
+        res.status(200).json({ message: 'OTP sent successfully' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while sending OTP' });
+    }
+});
+
+app.post('/validateotp', async (req, res) => {
+    try {
+        const result = validateOTP(req.body.otp, otp, expirytime);
+        
+        res.status(result.status).json({ message: result.message });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: 'An error occurred while validating OTP' });
+    }
+});
 
 
 
-
-
-
+app.post('/isAdmin',async (req,res)=>{
+    
+    var token=req.body.token;
+    console.log(token);
+    try{
+        if (!token) {
+            return res.status(400).json({ message: 'Token is required.' });
+        }
+        const data = jwt.verify(token, 'secret_admin');
+        if(data.user){
+            console.log("yes")
+            res.status(200).json({isAdmin:true});
+        }
+        else{
+            res.status(401).json({message:"unauthorized request"})
+        }
+    }
+    catch (error) {
+        return res.status(500).json({ message: 'Internal server error.' });
+    }
+})
 
 app.listen(port,(e)=>{
     if(!e){

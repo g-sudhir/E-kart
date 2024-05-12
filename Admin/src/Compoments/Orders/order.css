@@ -1,9 +1,13 @@
+*{
+    box-sizing: border-box;
+}
 .container{
     background-color: white;
     margin: 15px;
     padding: 20px;
     width: calc(100vw - 250px);
     display: block;
+    box-sizing: border-box;
 }
 .flex-container{
     display: flex;
@@ -71,7 +75,7 @@
     color: white;
     border: yellow 1px solid;
 }
-.order-delivered:hover{
+.order-delivered:hover *{
     background-color:green;
     color: white;
     border: green;
@@ -97,18 +101,53 @@
 .print-button button{
     padding: 20px;
     border-radius: 2px;
+    border-radius: 40%;
+    background-color: white;
+    color: #000000;
 }
-@media print {
-    body * {
-      visibility: hidden;
+
+.print-button button:hover{
+    transition: 0.3s;
+    border: 1px solid black;
+    background-color: black;
+    color: white;
+}
+
+.address-main>div:nth-child(2){
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@media (max-width:800px){
+    .container{
+        width: 100vw;
+
     }
-    .address, .address * ,.product-individual,.product-individual *{
-      visibility: visible;
+    .packed-info{
+        flex: 100%;
     }
-    .address ,.product-individual{
-      position: absolute;
-      left: 0;
-      top: 0;
+}
+
+@media (max-width:600px) {
+    .container>*{
+        margin-top: 20px;
     }
-  }
-  
+    .flex-container{
+        flex-direction: column;
+    }
+    .packed-info{
+        margin-top: 30px;
+    }
+    .address-main{
+        flex-direction: column;
+    }
+    .print-button{
+        order: 1;
+    }
+    .address{
+        order: 2;
+    }
+}

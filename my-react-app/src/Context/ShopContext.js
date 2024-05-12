@@ -29,14 +29,14 @@ const ShopContextProvider = (props) => {
     const [address, setaddress] = useState(addressInfo);
 
     useEffect(() => {
-        fetch('https://e-kart-z1nv.onrender.com/allproducts')
+        fetch('http://localhost:4000/allproducts')
             .then(response => response.json())
             .then(data => {
                 setallproduct(data);
             });
          console.log(allproduct)
         if (localStorage.getItem('auth-token')) {
-            fetch('https://e-kart-z1nv.onrender.com/getcart', {
+            fetch('http://localhost:4000/getcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -48,7 +48,7 @@ const ShopContextProvider = (props) => {
             .then(response => response.json())
             .then(data => {
                 setCartItems(data);
-                fetch('https://e-kart-z1nv.onrender.com/getAddress', {
+                fetch('http://localhost:4000/getAddress', {
                     method: 'POST',
                     headers: {
                         Accept: 'application/json',
@@ -80,7 +80,7 @@ const ShopContextProvider = (props) => {
             };
         });
         if (localStorage.getItem('auth-token')) {
-            fetch('https://e-kart-z1nv.onrender.com/addtocart', {
+            fetch('http://localhost:4000/addtocart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -105,7 +105,7 @@ const ShopContextProvider = (props) => {
             }
         }));
         if (localStorage.getItem('auth-token')) {
-            fetch('https://e-kart-z1nv.onrender.com/removefromcart', {
+            fetch('http://localhost:4000/removefromcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',
@@ -146,7 +146,7 @@ const ShopContextProvider = (props) => {
 
     const updateCartItems = (newCartItems) => {
         if (localStorage.getItem('auth-token')) {
-            fetch('https://e-kart-z1nv.onrender.com/getcart', {
+            fetch('http://localhost:4000/getcart', {
                 method: 'POST',
                 headers: {
                     Accept: 'application/json',

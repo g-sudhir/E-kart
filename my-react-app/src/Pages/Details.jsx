@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './CSS/Details.css';
-
+import { useAlert } from '../Components/Alerts/Alerts';
 const Details = () => {
+  const showAlert=useAlert();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,13 +15,23 @@ const Details = () => {
     landmark: "",
   });
 
+
+  
+
+
   const changeHandler = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     console.log(formData);
   };
 
   async function updateAddress() {
-    await fetch('https://e-kart-z1nv.onrender.com/details', {
+    for (const key in formData) {
+      if (!formData[key]) {
+        showAlert(`${key} can't be empty`, "warning");
+        return; // Stop execution if any field is empty
+      }
+    }
+    await fetch('http://localhost:4000/details', {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -159,7 +170,7 @@ const Details = () => {
 </label>
 
  </div>
-      <button onClick={updateAddress}>submit</button>
+      <button onClick={updateAddress} className='submitbutton'>submit</button>
     </div>
   );
 };

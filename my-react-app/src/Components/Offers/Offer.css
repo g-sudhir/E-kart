@@ -1,10 +1,12 @@
 .offers{
-    width:65%;
-    height: 60vh;
+    /* width:65%; */
+    height: 40vh;
     display: flex;
     margin: auto;
-    
-    padding: 0px 140px;
+    margin-top: 300px;
+    margin: 0px 30px;
+    justify-content: space-between;
+    padding: 20px 140px;
     margin-bottom: 150px;
     background: linear-gradient(180deg,#12ffac48,#e1ffea22 60%);
 
@@ -47,6 +49,7 @@
     display: flex;
     align-items: center;
     padding-top:50px;
+    justify-content: flex-end;
     
 
 }
@@ -105,8 +108,8 @@
 
 @media(max-width:800px){
     .offers{
-        margin-bottom: 60px;
-       
+        margin: 80px 20px;
+        
     }
     .offers-left h1{
         font-size: 22px;
@@ -132,7 +135,8 @@
     .offers{
         margin-bottom: 50px;
         height: 25vh;
-       
+        margin: 130px 20px ;
+        padding: 2px 2px;
     }
     .offers-left h1{
         font-size: 16px;

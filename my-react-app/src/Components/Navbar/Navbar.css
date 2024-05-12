@@ -54,6 +54,13 @@
     gap:45px;
 }
 
+
+
+
+.nav-login-button:hover{
+    background-color: #e4e4e4;
+    transition: 0.5s ;
+}
 .nav-login-cart button{
     width: 157px;
     height:58px;
@@ -73,7 +80,9 @@
     background: #f3f3f3;
 }
 
-
+.nav-login-cart img:hover{
+  transform: rotate(20deg);
+}
 .nav-cart-count{
     width:22px;
     height: 22px;
@@ -132,7 +141,9 @@
         gap:25px;
         font-size:14px;
     }
-
+    .nav-logo{
+        margin-left: 30px;
+    }
     .nav-login-cart button{
         width: 80px;
         height: 35px;
@@ -147,24 +158,24 @@
         height: 18px;
     }
 
-    
-
-
-
-
-
-
 
 
 }
- 
+
+
 @media(max-width:800px){
     .navbar{
         padding:10px 0px;
+        justify-content: space-between;
     }
-
+    
+    .nav-login-cart{
+        display: none;
+    }
+    
     .nav-dropdown{
         display: block;
+        margin-right: 30px;
         transition: 0.5s;
         width: 40px;
         height: 40px;
@@ -174,6 +185,7 @@
     .nav-menu{
         display: none;
         height: 100vh;
+        padding: 0px 0px 0px 0px;
         width:100%;
         position: absolute;
         background-color: white;
@@ -183,16 +195,25 @@
         flex-direction: column;
         font-size: 30px;
     }
-
+    .nav-login-visible{
+        float:right;
+        justify-content: flex-end;
+        transform: 20px;
+    }
+    .nav-login-cart{
+        order: 1;
+        margin-left: 0px;
+    }
+    .nav-dropdown{order: 2;}
+    
     .nav-menu-visible{
         display: flex;
     }
-    .nav-login-cart{order: 1;
-        margin-left: 190px;
-    }
-    .nav-dropdown{order: 2;}
-
 }
 
 
+
+.nav-login-visible{
+    display: flex;
+}
 

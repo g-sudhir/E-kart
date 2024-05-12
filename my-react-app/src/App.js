@@ -1,5 +1,5 @@
 import Navbar from './Components/Navbar/Navbar';
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
+import {BrowserRouter,Routes,Route,Navigate} from 'react-router-dom';
 import Shop from './Pages/Shop';
 import ShopCategory from './Pages/ShopCategory';
 import Product from './Pages/Product';
@@ -11,9 +11,15 @@ import women_banner from './Components/Assets/banner_women.png'
 import kids_banner from './Components/Assets/banner_kids.png'
 import Details from "./Pages/Details"
 import Alerts from './Components/Alerts/Alerts';
+import NotFoundPage from './Components/NotFoundPage/NotFoundPage';
 import { useContext } from 'react';
 function App() {
-
+   function isLoggedIn(){
+    if(localStorage.getItem('auth-token')){
+      return 1;
+    }
+    return 0;
+   }
   return (
    <div className="App">
     <BrowserRouter>
@@ -29,9 +35,13 @@ function App() {
             </Route>
             <Route path='/Cart' element={<Cart/>}/>
             <Route path='/Login' element={<LoginSignup/>}/>
-            <Route path="/details" element={<Details/>}/>
+            {isLoggedIn() ? ( // Conditionally render Details component based on authentication status
+            <Route path="/details" element={<Details />} />
+          ) : (
+            <Route path="/details" element={<Navigate to="/Login" replace />} /> // Redirect to Login if not authenticated
+          )}
 
-
+          <Route path="*" element={<NotFoundPage />} /> 
 
 
         </Routes>

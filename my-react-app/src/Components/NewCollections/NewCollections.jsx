@@ -7,9 +7,12 @@ const NewCollections = ({ forwardedRef }) => { // Accept forwardedRef as a prop
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch('https://e-kart-z1nv.onrender.com/newcollection')
+    fetch('http://localhost:4000/newcollection')
       .then((res) => res.json())
-      .then((data) => setNewCollection(data));
+      .then((data) =>{
+        setNewCollection(data);
+        console.log(data)
+      } );
   }, []);
 
   return (

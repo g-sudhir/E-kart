@@ -13,6 +13,7 @@ export const AlertProvider = ({ children }) => {
 
     // Function to update alert state
     const showAlert = (message, type) => {
+        myRef.current.style.display = "block"; 
         if (type === "error") {
             myRef.current.classList.add("error");
         } else if (type === "warning") {
@@ -25,6 +26,7 @@ export const AlertProvider = ({ children }) => {
 
         setTimeout(() => {
             myRef.current.style.display = "none"; 
+            
         }, 3000);
     };
 

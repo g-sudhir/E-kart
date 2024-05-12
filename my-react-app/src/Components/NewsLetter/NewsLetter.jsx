@@ -16,7 +16,7 @@ const NewsLetter = () => {
         event.preventDefault();
 
         // Here you can do something with the input value, like sending it to an API or processing it
-        const response = await fetch("https://e-kart-z1nv.onrender.com/addSubscription", {
+        const response = await fetch("http://localhost:4000/addSubscription", {
             method: "POST",
             headers: {
                 Accept: 'application/json',
@@ -45,7 +45,7 @@ const NewsLetter = () => {
                 <form onSubmit={handleSubmit}>
                     <div>
                         <input type="email" value={inputValue} onChange={handleChange} placeholder='Your Email here' />
-                        <button type="submit">Subscribe</button>
+                        <button type="submit" style={{cursor:'pointer'}}>Subscribe</button>
                     </div>
                 </form>
             </div>

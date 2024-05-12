@@ -1,10 +1,12 @@
 *{
     margin: 0;
 }
-
+.hero{
+    overflow: hidden;
+}
 .shopup{
-    width: 100vw;
-
+    width: 98vw;
+    
     mix-blend-mode:color;
     position: absolute;
 }
@@ -34,10 +36,9 @@
 
 .hero-left p{
     color:rgba(0, 0, 0, 0.63);
-    font-size: 50px;
+    font-size: 90px;
     font-weight: 700;
 }
-
 .hero-hand-icon{
     display: flex;
     align-items: center;
@@ -50,6 +51,7 @@
 
 }
 
+
 .hero-latest-btn{
     display: flex;
     justify-content: center;
@@ -58,12 +60,15 @@
     width: 310px;
     height: 70px;
     border-radius:75px;
-    background: rgb(12, 128, 114);
+    background: rgba(12, 128, 114, 0.687);
     margin-top: 30px;
     font-size: 22px;
     font-weight:500;
     color: white;
     cursor: pointer;
+}
+.hero-latest-btn:hover{
+    background: rgb(12, 128, 114);
 }
 
 .hero-right{
@@ -74,7 +79,7 @@
 }
 
 .hero-right img{
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
 }
 
@@ -134,7 +139,16 @@
     }
 }
 
+
+@media (max-width:900px){
+    .hero{
+        height: 90vh;
+    }
+}
 @media(max-width:800px){
+    .hero{
+        height: 80vh;
+    }
     .hero-left{
         padding-left: 30px;
 
@@ -163,6 +177,7 @@
 @media(max-width:500px){
    .hero{
     flex-direction: column;
+    height: 60vh;
    }
    .hero-right{
     display: none;
@@ -171,7 +186,7 @@
     font-size: 18px;
    }
    .hero-left p{
-    font-size: 50px;
+    font-size: 30px;
    }
    .hero-hand-icon{
     width: 55px;

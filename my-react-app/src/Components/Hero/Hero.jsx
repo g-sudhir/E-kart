@@ -15,7 +15,7 @@ const Hero = forwardRef(({ scrollToNewCollections }, ref) => {
   return (
     
     <div className='hero' ref={ref}>
-      <img className="shopup" src={shopup} alt="" />
+      {/* <img className="shopup" src={shopup} alt="" /> */}
       <div className='hero-left'>
         <h2>NEW ARRIVALS ONLY</h2>
         <div>
@@ -27,7 +27,7 @@ const Hero = forwardRef(({ scrollToNewCollections }, ref) => {
           <p className='animation'>You All...</p>
         </div>
         <div className="hero-latest-btn" onClick={handleClick}>
-          <div>Explore New</div>
+          <div className='explore-button'>Explore New</div>
           <img src={arrowIcon} alt="" />
         </div>
       </div>

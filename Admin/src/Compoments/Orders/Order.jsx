@@ -54,7 +54,7 @@ const Order = () => {
   async function makeupdate(status) {
     
     try {
-      const resp = await fetch("https://e-kart-z1nv.onrender.com/makeupdate", {
+      const resp = await fetch("http://localhost:4000/makeupdate", {
         method: "POST",
         headers: {
           Accept: 'application/json',

@@ -9,7 +9,7 @@ const ListProduct = () => {
 
 
   const remove_product = async (id)=>{
-    await fetch('https://e-kart-z1nv.onrender.com/removeproduct',{
+    await fetch('http://localhost:4000/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',

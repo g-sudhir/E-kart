@@ -11,7 +11,7 @@ function YourComponent() {
 
   useEffect( () => {
  
-    fetch('https://e-kart-z1nv.onrender.com/allproducts')
+    fetch('http://localhost:4000/allproducts')
             .then(response => response.json())
             .then(data => {
               console.log(data)
@@ -20,7 +20,7 @@ function YourComponent() {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch('https://e-kart-z1nv.onrender.com/allorders');
+        const response = await fetch('http://localhost:4000/allorders');
         if (!response.ok) {
           throw new Error('Failed to fetch orders');
         }

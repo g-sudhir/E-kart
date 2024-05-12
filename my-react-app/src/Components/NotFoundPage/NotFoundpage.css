@@ -1,0 +1,13 @@
+.page404{
+    width: 98vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.page404 img{
+    width: 90%;
+    height: 30%;
+    object-fit: contain;
+}

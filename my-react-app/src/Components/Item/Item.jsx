@@ -3,10 +3,15 @@ import './Item.css';
 import { Link } from 'react-router-dom';
 
 const Item = (props) => {
-  
+  function scroll_to_top(){
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth' // Optional: Adds smooth scrolling behavior
+  });
+  }
   return (
     <div className='item'>
-       <Link to={`/product/${props.id}`}><img src={props.image} alt="" /></Link>
+       <Link to={`/product/${props.id}`}><img src={props.image} alt="" onClick={()=>(scroll_to_top())}/></Link>
        <p>{props.name}</p>
        <div className='item-prices'>
            <div className='item-price-new'>
