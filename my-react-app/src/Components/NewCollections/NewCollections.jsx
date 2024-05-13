@@ -7,7 +7,7 @@ const NewCollections = ({ forwardedRef }) => { // Accept forwardedRef as a prop
   const [newCollection, setNewCollection] = useState([]);
 
   useEffect(() => {
-    fetch('http://localhost:4000/newcollection')
+    fetch('http://3.107.70.18:4000/newcollection')
       .then((res) => res.json())
       .then((data) =>{
         setNewCollection(data);

@@ -13,7 +13,9 @@ import Details from "./Pages/Details"
 import Alerts from './Components/Alerts/Alerts';
 import NotFoundPage from './Components/NotFoundPage/NotFoundPage';
 import { useContext } from 'react';
+
 function App() {
+
    function isLoggedIn(){
     if(localStorage.getItem('auth-token')){
       return 1;
@@ -23,7 +25,7 @@ function App() {
   return (
    <div className="App">
     <BrowserRouter>
-        
+        <>{process.env.URL}</>
         <Navbar/>
         <Routes>
             <Route path='/' element={<Shop/>}/>

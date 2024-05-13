@@ -41,7 +41,7 @@ const LoginSignup = () => {
     }
    else{
    
-     await fetch('http://localhost:4000/signup',{
+     await fetch('http://3.107.70.18:4000/signup',{
        method:'POST',
        headers:{
          Accept:'application/form-data',
@@ -75,7 +75,7 @@ const LoginSignup = () => {
     else{
 
       try {
-        const response = await fetch('http://localhost:4000/login', {
+        const response = await fetch('http://3.107.70.18:4000/login', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -88,7 +88,7 @@ const LoginSignup = () => {
         console.log(responseData)
         if (responseData.admin) {
           alert(responseData.token)
-          const adminPortalUrl = "http://localhost:5173/?token=" + encodeURIComponent(responseData.token);
+          const adminPortalUrl = "http://3.107.70.18:5173/?token=" + encodeURIComponent(responseData.token);
           window.location.replace(adminPortalUrl);
         } else {
           if (responseData.success) {
@@ -114,7 +114,7 @@ const LoginSignup = () => {
       return;
     }
     try {
-        const response = await fetch('http://localhost:4000/sendotp', {
+        const response = await fetch('http://3.107.70.18:4000/sendotp', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -141,7 +141,7 @@ const LoginSignup = () => {
     }
     else{
       try {
-        const response = await fetch('http://localhost:4000/validateotp', {
+        const response = await fetch('http://3.107.70.18:4000/validateotp', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',

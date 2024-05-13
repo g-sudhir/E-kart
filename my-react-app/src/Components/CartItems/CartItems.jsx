@@ -10,8 +10,7 @@ const CartItems = () => {
   function checkForCheckOut() {
     if (address && address.name !== "") {
       const data = { price: getTotalCartAmount() }
-      console.log(data.price);
-      fetch('http://localhost:4000/placeorder', {
+      fetch('http://3.107.70.18:4000/placeorder', {
         method: 'POST',
         headers: {
           Accept: 'application/json',

@@ -16,7 +16,7 @@ const NewsLetter = () => {
         event.preventDefault();
 
         // Here you can do something with the input value, like sending it to an API or processing it
-        const response = await fetch("http://localhost:4000/addSubscription", {
+        const response = await fetch("http://3.107.70.18:4000/addSubscription", {
             method: "POST",
             headers: {
                 Accept: 'application/json',

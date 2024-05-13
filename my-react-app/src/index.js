@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import ShopContextProvider from '../src/Context/ShopContext';
 import { AlertProvider } from './Components/Alerts/Alerts.jsx'
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 const { useAlert } = require("./Components/Alerts/Alerts");
 

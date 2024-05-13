@@ -31,7 +31,7 @@ const Details = () => {
         return; // Stop execution if any field is empty
       }
     }
-    await fetch('http://localhost:4000/details', {
+    await fetch('http://3.107.70.18:4000/details', {
       method: 'POST',
       headers: {
         Accept: 'application/json',

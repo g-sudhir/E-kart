@@ -44,9 +44,11 @@ const Navbar=()=>{
             loginRef.current.classList.remove('nav-login-visible');
         }
     }
-    
+    console.log(process.env.URL)
     return (
+        
         <div className='navbar'>
+            
             <div className='nav-logo' style={{flexShrink:0}}>
                 <img  src={logo} alt="" />
             </div>

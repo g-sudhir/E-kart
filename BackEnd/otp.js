@@ -49,7 +49,6 @@ function validateOTP(enteredOTP, sentOTP, expirationTime) {
         return { status: 400, message: 'Incorrect OTP' };
     }
 }
-
 // Export both functions as properties of a single object
 module.exports = {
     sendOTP: sendOTP,
