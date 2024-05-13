@@ -9,13 +9,13 @@ const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
+  useEffect(async () => {
     // Check if token exists in localStorage
     const token = localStorage.getItem('token');
 
     if (token) {
       // Token exists, validate it
-      fetch('http://3.107.70.18:4000/isAdmin', {
+     await fetch('http://3.107.70.18:4000/isAdmin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -29,6 +29,8 @@ const App = () => {
         return response.json();
       })
       .then(data => {
+        alert(data)
+        console.log(data)
         setIsAdmin(data.isAdmin);
         setIsLoading(false);
       })
