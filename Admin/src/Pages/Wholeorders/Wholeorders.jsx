@@ -11,7 +11,7 @@ function YourComponent() {
 
   useEffect( () => {
  
-    fetch('process.env.url:4000/allproducts')
+    fetch('http://3.107.70.18:4000/allproducts')
             .then(response => response.json())
             .then(data => {
               console.log(data)
@@ -20,7 +20,7 @@ function YourComponent() {
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch('process.env.url:4000/allorders');
+        const response = await fetch('http://3.107.70.18:4000/allorders');
         if (!response.ok) {
           throw new Error('Failed to fetch orders');
         }

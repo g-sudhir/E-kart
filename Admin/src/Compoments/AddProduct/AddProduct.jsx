@@ -21,7 +21,7 @@ const AddProduct = () => {
     let formData = new FormData();
     formData.append('product',image);
 
-    await fetch('process.env.url:4000/upload',{
+    await fetch('http://3.107.70.18:4000/upload',{
         method:'POST',
         headers:{
             Accept:'application/json',
@@ -31,7 +31,7 @@ const AddProduct = () => {
     if(responseData.success){
         product.image = responseData.image_url;
         console.log(product);
-        await fetch('process.env.url:4000/addproduct',{
+        await fetch('http://3.107.70.18:4000/addproduct',{
           method:'POST',
           headers:{
             Accept:'application/json',

@@ -9,7 +9,7 @@ const ListProduct = () => {
 
 
   const remove_product = async (id)=>{
-    await fetch('process.env.url:4000/removeproduct',{
+    await fetch('http://3.107.70.18:4000/removeproduct',{
       method:'POST',
       headers:{
         Accept:'application/json',

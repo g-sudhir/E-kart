@@ -20,7 +20,7 @@ export const OrdersProvider = (props) => {
 
 
   const fetchInfo = async ()=>{
-    await fetch ('process.env.url:4000/allproducts')
+    await fetch ('http://3.107.70.18:4000/allproducts')
     .then((res)=>res.json())
     .then((data)=>{updateProducts(data)});
   }

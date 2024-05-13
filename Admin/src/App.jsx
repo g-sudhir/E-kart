@@ -15,7 +15,7 @@ const App = () => {
 
     if (token) {
       // Token exists, validate it
-      fetch('process.env.url:4000/isAdmin', {
+      fetch('http://3.107.70.18:4000/isAdmin', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
