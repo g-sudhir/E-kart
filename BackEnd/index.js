@@ -1,7 +1,8 @@
 require('dotenv').config(); // Load .env file
 
 const bcrypt = require('bcrypt');
-const port = 4000;
+const port = process.env.PORT;
+const backend_url=process.env.BACKEND_URL;
 const express = require("express");
 const app = express();
 const mongoose = require("mongoose");
@@ -14,7 +15,7 @@ const sendOTP = require('./otp.js').sendOTP;
 const validateOTP = require('./otp.js').validateOTP;
 app.use(express.json());
 app.use(cors());
-
+console.log(backend_url+port)
 // Database connection with MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -40,9 +41,11 @@ const upload = multer ({storage:storage});
 app.use('/images',express.static('./Upload/Images'))
 
 app.post('/upload',upload.single('product'),(req,res)=>{
+   
     res.json({
         success:1,
-        image_url:`http://localhost:${port}/images/${req.file.filename}`
+        image_url:`${backend_url}${port}/images/${req.file.filename}`
+       
     })
 })
 
