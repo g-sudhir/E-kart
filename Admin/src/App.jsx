@@ -18,6 +18,7 @@ const App = () => {
         token = urlParams.get('token');
       }
       alert("working")
+      console.log("working")
       if (token) {
         alert(token);
         try {
