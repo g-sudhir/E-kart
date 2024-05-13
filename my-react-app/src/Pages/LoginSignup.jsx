@@ -87,7 +87,7 @@ const LoginSignup = () => {
         const responseData = await response.json();
         console.log(responseData)
         if (responseData.admin) {
-          const adminPortalUrl = "http://3.107.70.18:5173/?token=" + encodeURIComponent(responseData.token);
+          const adminPortalUrl = "http://3.107.26.124:3000/?token=" + encodeURIComponent(responseData.token);
           window.location.replace(adminPortalUrl);
         } else {
           if (responseData.success) {
