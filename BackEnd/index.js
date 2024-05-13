@@ -15,7 +15,7 @@ const sendOTP = require('./otp.js').sendOTP;
 const validateOTP = require('./otp.js').validateOTP;
 app.use(express.json());
 app.use(cors());
-console.log(backend_url+port)
+
 // Database connection with MongoDB
 mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => {
@@ -195,9 +195,9 @@ app.post('/addproduct',async(req,res)=>{
         new_price:req.body.new_price,
         old_price:req.body.old_price
     });
-    console.log(product);
+  
     await product.save();
-    console.log("saved");
+    
     res.json({
         success:true,
         name:req.body.name,
@@ -422,22 +422,18 @@ app.post('/getcart',fetchUser,async (req,res)=>{
 app.post('/getAddress',fetchUser,async (req,res)=>{
     
     let userData = await Address.findOne({ref:req.user.id});
-    // console.log(userData);
+    
     res.json(userData);
 })
 
 
 app.post('/details', fetchUser, async (req, res) => {
     try {
-        // console.log("geetign....",req.user.id);
+     
         console.log("Uploading address details...");
-        
-        // console.log("Request Body:", req.body); // Add this line to check the received data
-        
+      
         const { name, email, address1, address2, mobile, state, district, pincode, landmark } = req.body;
-        
-        // Validate inputs here...
-        
+   
         const user = new Address({
             ref:req.user.id,
             name,
@@ -453,7 +449,7 @@ app.post('/details', fetchUser, async (req, res) => {
         
         await user.save();
         
-        // console.log("User details saved successfully:", user);
+      
         
         res.json({ success: true, message: 'Details saved successfully' });
     } catch (error) {
@@ -485,7 +481,7 @@ app.post('/placeorder', fetchUser, async (req, res) => {
                 }
             }
         });
-        // console.log(orderIdsArray)
+      
         userData.markModified('cartData');
 
 
@@ -623,8 +619,8 @@ const sendEmail = async (emailData) => {
         const transporter = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: 'sakthiadhu@gmail.com', // Your Gmail address
-                pass: 'rtqm dntj ohqu ujhu' // Your Gmail password or application-specific password if 2-step verification is enabled
+                user: process.env.GMAIL_ID, // Your Gmail address
+                pass: process.env.GMAIL_PASS // Your Gmail password or application-specific password if 2-step verification is enabled
             }
         });
 
@@ -649,7 +645,7 @@ var otp, expirytime;
 
 app.post('/sendotp', async (req, res) => {
     try {
-        console.log("ha")
+      
         const otpData = await sendOTP(req.body.email);
         otp = otpData.otp;
         expirytime = otpData.expirationTime;
@@ -676,7 +672,7 @@ app.post('/validateotp', async (req, res) => {
 app.post('/isAdmin',async (req,res)=>{
     
     var token=req.body.token;
-    console.log(token);
+
     try{
         if (!token) {
             return res.status(400).json({ message: 'Token is required.' });
