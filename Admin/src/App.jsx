@@ -17,10 +17,9 @@ const App = () => {
         const urlParams = new URLSearchParams(window.location.search);
         token = urlParams.get('token');
       }
-      alert("working")
-      console.log("working")
+     
       if (token) {
-        alert(token);
+       
         try {
           const response = await fetch('http://3.107.70.18:4000/isAdmin', {
             method: 'POST',
