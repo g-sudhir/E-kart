@@ -150,7 +150,7 @@ const Order = () => {
           </div>
         </div>
 
-        <div style={{ color: "red", fontSize: "20px", margin: "10px" }}>Total Price:{currentOrder.totalprice}</div>
+        <div className='totalPrice' style={{ color: "red", fontSize: "20px", margin: "10px" }}>Total Price:{currentOrder.totalprice}</div>
         <div className='address-main'>
           <div className='address'>
             <h1>Address of customer:</h1>
@@ -170,7 +170,7 @@ const Order = () => {
             }
           </div>
           <div className='print-button'>
-            <button onClick={()=>{makePrint()}}>print</button>
+            <button onClick={()=>{makePrint()}}>print bill</button>
           </div>
 
         </div>

@@ -2,19 +2,19 @@ import React, { useEffect, useState } from 'react';
 import Admin from './Pages/Admin/Admin';
 import Navbar from './Compoments/Navbar/Navbar';
 import { OrdersProvider } from './Context/Allcontext';
+import { AlertProvider } from '../../my-react-app/src/Components/Alerts/Alerts';
+import { useContext } from 'react';
 
 const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Extract token from URL query parameters
-    const params = new URLSearchParams(window.location.search);
-    const tokenParam = params.get('token');
-    const token = decodeURIComponent(tokenParam);
-    
+    // Check if token exists in localStorage
+    const token = localStorage.getItem('token');
+
     if (token) {
-      
+      // Token exists, validate it
       fetch('http://localhost:4000/isAdmin', {
         method: 'POST',
         headers: {
@@ -37,6 +37,7 @@ const App = () => {
         setIsLoading(false);
       });
     } else {
+      // No token found in localStorage
       setIsLoading(false);
     }
   }, []);
@@ -48,13 +49,15 @@ const App = () => {
   if (!isAdmin) {
     return <div>Unauthorized access</div>;
   }
-
+  
   return (
     <div>
-      <OrdersProvider>
-        <Navbar />
-        <Admin />
-      </OrdersProvider>
+      <AlertProvider>
+        <OrdersProvider>
+          <Navbar />
+          <Admin />
+        </OrdersProvider>
+      </AlertProvider>
     </div>
   );
 }

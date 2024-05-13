@@ -5,7 +5,7 @@ import { useAlert } from '../Alerts/Alerts'; // Import the useAlert hook
 const NewsLetter = () => {
     const [inputValue, setInputValue] = useState("");
     const showAlert = useAlert(); // Use the useAlert hook to access showAlert function
-
+     
     function handleChange(event) {
         // Update the state with the current value of the input field
         setInputValue(event.target.value);

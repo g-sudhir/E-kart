@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import './AddProduct.css';
 import upload_area from '../../assets/upload_area.svg';
-
+import { useAlert } from '../Alert/Alert';
 const AddProduct = () => {
+  const showAlert=useAlert();
   const [image, setImage] = useState(false);
   const [productDetails, setProductDetails] = useState({
     name: "",
@@ -11,6 +12,7 @@ const AddProduct = () => {
     new_price: "",
     old_price: "",
   });
+
   const Add_Product = async ()=>{
     
     let responseData;
@@ -37,7 +39,14 @@ const AddProduct = () => {
           },
           body:JSON.stringify(product)
         }).then((res)=>res.json()).then((data)=>{
-          data.success?alert("Product added"):alert("product added failed");
+          data.success ? (setProductDetails({
+            name: "",
+            image: "",
+            category: "women",
+            new_price: "",
+            old_price: "",
+          }), setImage(null),alert("product added successfully")): alert("product added failed");
+          
         })
     }
   }

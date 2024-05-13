@@ -151,3 +151,26 @@
         order: 2;
     }
 }
+
+
+@media print{
+    *{
+       visibility:hidden;
+    }
+    .products{
+        position: absolute;
+
+        top:0;
+    }
+    .products *{
+        visibility: visible;
+    }
+
+    .address *{
+        visibility: visible;
+    }
+    .address{
+        position: absolute;
+        bottom: 0;
+    }
+}
