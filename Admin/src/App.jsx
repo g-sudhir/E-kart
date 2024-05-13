@@ -3,45 +3,46 @@ import Admin from './Pages/Admin/Admin';
 import Navbar from './Compoments/Navbar/Navbar';
 import { OrdersProvider } from './Context/Allcontext';
 import { AlertProvider } from '../../my-react-app/src/Components/Alerts/Alerts';
-import { useContext } from 'react';
 
 const App = () => {
   const [isAdmin, setIsAdmin] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(async () => {
-    // Check if token exists in localStorage
-    const token = localStorage.getItem('token');
+  useEffect(() => {
+    const fetchToken = async () => {
+      let token = localStorage.getItem('token');
 
-    if (token) {
-      // Token exists, validate it
-     await fetch('http://3.107.70.18:4000/isAdmin', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ token: token })
-      })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error('Failed to validate token');
+      // If token is not in localStorage, check URL for token parameter
+      if (!token) {
+        const urlParams = new URLSearchParams(window.location.search);
+        token = urlParams.get('token');
+      }
+
+      if (token) {
+        try {
+          const response = await fetch('http://3.107.70.18:4000/isAdmin', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ token })
+          });
+
+          if (!response.ok) {
+            throw new Error('Failed to validate token');
+          }
+
+          const data = await response.json();
+          setIsAdmin(data.isAdmin);
+        } catch (error) {
+          console.error('Error:', error);
         }
-        return response.json();
-      })
-      .then(data => {
-        alert(data)
-        console.log(data)
-        setIsAdmin(data.isAdmin);
-        setIsLoading(false);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        setIsLoading(false);
-      });
-    } else {
-      // No token found in localStorage
+      }
+
       setIsLoading(false);
-    }
+    };
+
+    fetchToken();
   }, []);
 
   if (isLoading) {
