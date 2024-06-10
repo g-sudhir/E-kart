@@ -26,8 +26,6 @@ npm run dev
 to start the<b> vite app server</b>.
 
 
-###Admin page -> https://ekartadmin.netlify.app/
-
 
 
 ![WhatsApp Image 2024-04-28 at 12 20 01_8719004d](https://github.com/g-sudhir/E-kart/assets/155182564/bf2a36a3-94a6-4948-882e-831a62b6acc9)
